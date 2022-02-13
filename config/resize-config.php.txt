@@ -1,0 +1,8 @@
+<?php
+return [
+    'fallbackURL' =>
+    "https://filmtools.com/media/catalog/product/",
+    'test' => false,
+    'salt' => 'film',
+    's3' => false
+];
