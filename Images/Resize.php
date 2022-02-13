@@ -23,6 +23,7 @@ trait Resize
 
     static function imageResizeUrl($url, $width, $height, $type = 'j', $quality = 95, $customPath = false)
     {
+       
         if ($customPath === false) {
             $mediaUrl = self::getMediaURL();
         } else {
@@ -42,16 +43,17 @@ trait Resize
         ksort($parameters);
         $base64 = /*base64_encode(*/ base64_encode(http_build_query($parameters))/*)*/;
 
+        $url = str_replace('media/catalog/product', '', $url);
         $url = str_replace('catalog/product', '', $url);
 
-        if (strpos($url, 'cache')) {
+        if (strpos($url, 'cache') !== false) {
             $parts = explode('/', $url);
             $count = count($parts);
             $url = $parts[$count - 3] . '/' . $parts[$count - 2] . '/' . $parts[$count - 1];
         }
-        $baseWeb = $mediaUrl . self::$catalogProductFolder . '/resize/' . $base64 . '/' . $url;
+        $baseWeb = $mediaUrl . str_replace('//', '/', self::$catalogProductFolder . '/resize/' . $base64 . '/' . $url);
 
-        return str_replace('//', '/', $baseWeb);
+        return  $baseWeb;
     }
 
     static function imageBetterResize($filePath, $width = 800, $height = 800, $type = 'j', $quality = 95)
